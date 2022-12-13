@@ -1,19 +1,20 @@
 echo 'log ERROR|WARN|INFO "some text here"'
+commands=(ERROR WARN INFO)
 read func_res
 IFS=', ' read -r -a array <<< "$func_res"
-
-if [[ ${!array[0]}=='log' ]]; then
-	echo 'invalid input!'
-fi
-
-
-if [ !array[1]=='ERROR' ] || [ !array[1]=='WARN' ] || [ !array[1]=='INFO' ]; then
-	echo 'invalid keyword!'
-fi
-
-
-
 now=`date`
 
-echo "$now ${func_res}"
+if [[ ${array[1]} != *${commands} ]]; then
+	echo "command is not correct"
+	exit 1;
 
+
+# TODO: Cannot find a way to put if statements on the same row --> OR operator (||) doesn't seem to work!
+
+elif [[ ${array[0]} != log ]]; then
+	echo "command is not correct"
+	exit 1;
+
+
+fi 
+echo "$now ${func_res}"
